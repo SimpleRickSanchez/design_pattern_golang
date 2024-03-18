@@ -6,6 +6,7 @@ import (
 	"bridge"
 	bdr "builder"
 	"composite"
+	"decorator"
 	"factory_method"
 	"fmt"
 	ptt "prototype"
@@ -15,14 +16,14 @@ import (
 func main() {
 	/* ---------------Creational_Patterns------------------ */
 
-	/* ---------------singleton------------------ */
-	singleton1 := singleton.GetInstance1()
-	singleton2 := singleton.GetInstance2()
+	fmt.Println("/* ---------------singleton------------------ */")
+	singleton1 := singleton.GetInstance1() // lazy
+	singleton2 := singleton.GetInstance2() // eager
 	singleton3 := singleton.SingletonFactory()
 
 	fmt.Println(singleton1, singleton2, singleton3)
 
-	/* -----------------factory_method---------------- */
+	fmt.Println("/* -----------------factory_method---------------- */")
 	factoryA := &factory_method.ConcreteFactoryA{}
 	productA := factoryA.CreateProduct()
 	fmt.Println(productA.Use()) // 输出：Product A is being used
@@ -32,7 +33,7 @@ func main() {
 	productB := factoryB.CreateProduct()
 	fmt.Println(productB.Use()) // 输出：Product B is being used
 
-	/* -----------------abstract_factory---------------- */
+	fmt.Println("/* -----------------abstract_factory---------------- */")
 	factory1 := &abstract_factory.ConcreteFactory1{}
 	factory2 := &abstract_factory.ConcreteFactory2{}
 
@@ -47,7 +48,7 @@ func main() {
 	fmt.Println(productA2.Use())
 	fmt.Println(productB2.Use())
 
-	/* -----------------prototype---------------- */
+	fmt.Println("/* -----------------prototype---------------- */")
 	// 创建原型对象
 	prototype := ptt.NewConcretePrototype("Hello, Prototype!")
 
@@ -82,7 +83,7 @@ func main() {
 
 	/* ---------------Strutural_Patterns------------------ */
 
-	/* ---------------adapter------------------ */
+	fmt.Println("/* ---------------adapter------------------ */")
 	// 创建一个Adaptee实例
 	adaptee := &adapter.Adaptee{Data: "Hello, Adaptee!"}
 
@@ -92,7 +93,7 @@ func main() {
 	// 客户端调用Target接口的Request方法
 	fmt.Println(target.Request())
 
-	/* ---------------bridge------------------ */
+	fmt.Println("/* ---------------bridge------------------ */")
 	// 创建抽象部分对象
 	abstraction := &bridge.Abstraction{}
 
@@ -104,7 +105,7 @@ func main() {
 	abstraction.SetImplementor(&bridge.ConcreteImplementorB{})
 	abstraction.Operation() // 输出 "ConcreteImplementorB operation"
 
-	/* ---------------composite------------------ */
+	fmt.Println("/* ---------------composite------------------ */")
 	// 创建复合组件
 	root := composite.NewComposite("Root")
 
@@ -136,26 +137,51 @@ func main() {
 	if child != nil {
 		child.Operation()
 	}
-	/* ---------------decorator------------------ */
-	/* ---------------facade------------------ */
-	/* ---------------flyweight------------------ */
-	/* ---------------proxy------------------ */
+
+	fmt.Println("/* ---------------decorator------------------ */")
+	// 创建一个 Circle 实例
+	circle := &decorator.Circle{Radius: 5.0}
+
+	// 使用 Decorator 包装 Circle 实例
+	decoratedCircle := &decorator.Decorator{Shape: circle}
+
+	// 使用 RedCircleDecorator 扩展 Decorator
+	redCircle := &decorator.RedCircleDecorator{Decorator: *decoratedCircle}
+
+	// 调用 RedCircleDecorator 的 Draw 方法
+	fmt.Println(redCircle.Draw())
+
+	fmt.Println("/* ---------------facade------------------ */")
+
+	fmt.Println("/* ---------------flyweight------------------ */")
+
+	fmt.Println("/* ---------------proxy------------------ */")
 
 	/* ----------------------End------------------------- */
 
 	/* ---------------Behavioral Patterns------------------ */
 
-	/* ---------------template_method------------------ */
-	/* ---------------strategy------------------ */
-	/* ---------------command------------------ */
-	/* ---------------chain_of_responsibility------------------ */
-	/* ---------------state------------------ */
-	/* ---------------observer------------------ */
-	/* ---------------memento------------------ */
-	/* ---------------interpreter------------------ */
-	/* ---------------iterator------------------ */
-	/* ---------------visitor------------------ */
-	/* ---------------mediator------------------ */
+	fmt.Println("/* ---------------template_method------------------ */")
+
+	fmt.Println("/* ---------------strategy------------------ */")
+
+	fmt.Println("/* ---------------command------------------ */")
+
+	fmt.Println("/* ---------------chain_of_responsibility------------------ */")
+
+	fmt.Println("/* ---------------state------------------ */")
+
+	fmt.Println("/* ---------------observer------------------ */")
+
+	fmt.Println("/* ---------------memento------------------ */")
+
+	fmt.Println("/* ---------------interpreter------------------ */")
+
+	fmt.Println("/* ---------------iterator------------------ */")
+
+	fmt.Println("/* ---------------visitor------------------ */")
+
+	fmt.Println("/* ---------------mediator------------------ */")
 
 	/* ----------------------End------------------------- */
 
