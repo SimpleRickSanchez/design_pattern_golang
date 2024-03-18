@@ -13,6 +13,9 @@ import (
 	"factory_method"
 	"flyweight"
 	"fmt"
+	"interpreter"
+	"memento"
+	"observer"
 	ptt "prototype"
 	"proxy"
 	"singleton"
@@ -261,10 +264,53 @@ func main() {
 	st_context.Request() // 执行B状态的处理，因为A状态处理中更改了状态
 
 	fmt.Println("/* ---------------observer------------------ */")
+	subject := observer.NewConcreteSubject()
+
+	observer1 := observer.NewConcreteObserver("Observer 1")
+	observer2 := observer.NewConcreteObserver("Observer 2")
+	observer3 := observer.NewConcreteObserver("Observer 3")
+
+	subject.RegisterObserver(observer1)
+	subject.RegisterObserver(observer2)
+	subject.RegisterObserver(observer3)
+
+	subject.SetState("New State") // 主题状态改变，通知所有观察者
 
 	fmt.Println("/* ---------------memento------------------ */")
 
+	originator := &memento.Originator{}
+	caretaker := &memento.Caretaker{}
+
+	// 设置发起人状态并保存备忘录
+	originator.SetState("State A")
+	mementoA := originator.CreateMemento()
+	caretaker.AddMemento(mementoA)
+
+	// 改变发起人状态
+	originator.SetState("State B")
+
+	// 使用备忘录恢复发起人状态
+	originator.RestoreFromMemento(mementoA)
+	fmt.Println("Originator state after restore:", originator.GetState()) // 输出 "State A"
+
+	// 获取并打印最后一个备忘录的状态
+	lastMemento := caretaker.GetMemento()
+	if lastMemento != nil {
+		fmt.Println("Last memento state:", lastMemento.GetState()) // 输出 "State A"
+	}
+
 	fmt.Println("/* ---------------interpreter------------------ */")
+	expression := "var(a) + 5"
+	itp_context := interpreter.NewContext()
+	itp_context.SetVariable("a", 10)
+
+	// 解析表达式
+	abstractExpression := interpreter.ParseExpression(expression)
+
+	// 解释表达式
+	result := abstractExpression.Interpret(itp_context)
+
+	fmt.Printf("Result: %d\n", result) // 输出：Result: 15
 
 	fmt.Println("/* ---------------iterator------------------ */")
 
