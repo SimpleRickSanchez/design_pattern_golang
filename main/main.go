@@ -3,11 +3,12 @@ package main
 import (
 	"abstract_factory"
 	"adapter"
+	"bridge"
 	bdr "builder"
+	"composite"
+	"factory_method"
 	"fmt"
 	ptt "prototype"
-
-	"factory_method"
 	"singleton"
 )
 
@@ -77,7 +78,7 @@ func main() {
 	// 输出构建好的 Car 对象
 	fmt.Printf("Brand: %s, Engine: %s, Color: %s\n", car.Brand, car.Engine, car.Color)
 
-	/* ---------------Creational_Patterns------------------ */
+	/* ----------------------End------------------------- */
 
 	/* ---------------Strutural_Patterns------------------ */
 
@@ -91,10 +92,71 @@ func main() {
 	// 客户端调用Target接口的Request方法
 	fmt.Println(target.Request())
 
-	/* ---------------Strutural_Patterns------------------ */
+	/* ---------------bridge------------------ */
+	// 创建抽象部分对象
+	abstraction := &bridge.Abstraction{}
+
+	// 设置实现部分对象 A
+	abstraction.SetImplementor(&bridge.ConcreteImplementorA{})
+	abstraction.Operation() // 输出 "ConcreteImplementorA operation"
+
+	// 设置实现部分对象 B
+	abstraction.SetImplementor(&bridge.ConcreteImplementorB{})
+	abstraction.Operation() // 输出 "ConcreteImplementorB operation"
+
+	/* ---------------composite------------------ */
+	// 创建复合组件
+	root := composite.NewComposite("Root")
+
+	// 创建叶子组件并添加到复合组件中
+	leafA := composite.NewLeaf("Leaf A")
+	leafB := composite.NewLeaf("Leaf B")
+	root.Add(leafA)
+	root.Add(leafB)
+
+	// 创建另一个复合组件并添加到根复合组件中
+	compositeX := composite.NewComposite("Composite X")
+	leafX1 := composite.NewLeaf("Leaf X1")
+	leafX2 := composite.NewLeaf("Leaf X2")
+	compositeX.Add(leafX1)
+	compositeX.Add(leafX2)
+	root.Add(compositeX)
+
+	// 执行根复合组件的操作
+	root.Operation()
+
+	// 移除一个叶子组件
+	root.Remove(leafB)
+
+	// 再次执行根复合组件的操作
+	root.Operation()
+
+	// 获取并操作一个子组件
+	child := root.GetChild(1)
+	if child != nil {
+		child.Operation()
+	}
+	/* ---------------decorator------------------ */
+	/* ---------------facade------------------ */
+	/* ---------------flyweight------------------ */
+	/* ---------------proxy------------------ */
+
+	/* ----------------------End------------------------- */
 
 	/* ---------------Behavioral Patterns------------------ */
 
-	/* ---------------Behavioral Patterns------------------ */
+	/* ---------------template_method------------------ */
+	/* ---------------strategy------------------ */
+	/* ---------------command------------------ */
+	/* ---------------chain_of_responsibility------------------ */
+	/* ---------------state------------------ */
+	/* ---------------observer------------------ */
+	/* ---------------memento------------------ */
+	/* ---------------interpreter------------------ */
+	/* ---------------iterator------------------ */
+	/* ---------------visitor------------------ */
+	/* ---------------mediator------------------ */
+
+	/* ----------------------End------------------------- */
 
 }
