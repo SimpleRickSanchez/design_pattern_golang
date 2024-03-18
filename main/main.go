@@ -7,9 +7,12 @@ import (
 	bdr "builder"
 	"composite"
 	"decorator"
+	"facade"
 	"factory_method"
+	"flyweight"
 	"fmt"
 	ptt "prototype"
+	"proxy"
 	"singleton"
 )
 
@@ -152,10 +155,43 @@ func main() {
 	fmt.Println(redCircle.Draw())
 
 	fmt.Println("/* ---------------facade------------------ */")
+	// 创建 Facade 实例
+	facade := facade.NewFacade()
+
+	// 客户端使用 Facade 的 Operation 方法
+	fmt.Println(facade.Operation())
 
 	fmt.Println("/* ---------------flyweight------------------ */")
+	// 创建享元工厂
+	factory := flyweight.FlyweightFactory{}
+
+	// 客户端请求享元对象
+	extrinsicState1 := "Client State 1"
+	extrinsicState2 := "Client State 2"
+	flyweight1 := factory.GetFlyweight("Shared State 1")
+	flyweight2 := factory.GetFlyweight("Shared State 2")
+
+	// 使用享元对象
+	result1 := flyweight1.Operation(extrinsicState1)
+	result2 := flyweight2.Operation(extrinsicState2)
+
+	// 输出结果
+	fmt.Println(result1)
+	fmt.Println(result2)
+
+	// 再次请求相同的享元对象，应该得到之前缓存的对象
+	flyweight1Again := factory.GetFlyweight("Shared State 1")
+	result1Again := flyweight1Again.Operation(extrinsicState1)
+
+	// 输出结果，应该是相同的对象
+	fmt.Println(result1Again)
 
 	fmt.Println("/* ---------------proxy------------------ */")
+
+	// 使用代理对象
+	proxy := &proxy.ProxyImage{}
+	proxy.Display() // 第一次调用时，会加载真实图片
+	proxy.Display() // 第二次调用时，直接使用已加载的图片
 
 	/* ----------------------End------------------------- */
 
