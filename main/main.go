@@ -14,6 +14,8 @@ import (
 	"flyweight"
 	"fmt"
 	"interpreter"
+	"iterator"
+	mdt "mediator"
 	"memento"
 	"observer"
 	ptt "prototype"
@@ -22,6 +24,7 @@ import (
 	"state"
 	"strategy"
 	tmplmethod "template_method"
+	v "visitor"
 )
 
 func main() {
@@ -314,9 +317,54 @@ func main() {
 
 	fmt.Println("/* ---------------iterator------------------ */")
 
+	// 创建具体聚合对象
+	aggregate := iterator.NewConcreteAggregate([]int{1, 2, 3, 4, 5})
+
+	// 获取迭代器
+	iterator := aggregate.CreateIterator()
+
+	// 使用迭代器遍历聚合对象
+	fmt.Println("Iterating over the aggregate:")
+	for iterator.HasNext() {
+		fmt.Println(iterator.Current())
+		iterator.Next()
+	}
+
+	// 重置迭代器并再次遍历
+	fmt.Println("Resetting the iterator and iterating again:")
+	iterator.Reset()
+	for iterator.HasNext() {
+		fmt.Println(iterator.Current())
+		iterator.Next()
+	}
+
 	fmt.Println("/* ---------------visitor------------------ */")
 
+	zoo := &v.Zoo{
+		Animals: []v.Element{
+			&v.Dog{Name: "Buddy"},
+			&v.Cat{Name: "Whiskers"},
+		},
+	}
+
+	fmt.Println("Visiting animals to sound:")
+	zoo.Accept(&v.SoundVisitor{})
+
+	fmt.Println("\nVisiting animals to eat:")
+	zoo.Accept(&v.EatVisitor{})
+
 	fmt.Println("/* ---------------mediator------------------ */")
+
+	mediator := mdt.NewConcreteMediator()
+
+	colleagueA := mdt.NewConcreteColleagueA(mediator, "A")
+	colleagueB := mdt.NewConcreteColleagueB(mediator, "B")
+
+	mediator.Register(colleagueA, "A")
+	mediator.Register(colleagueB, "B")
+
+	colleagueA.Send("Hello from A!")
+	colleagueB.Send("Hello from B!")
 
 	/* ----------------------End------------------------- */
 
