@@ -1,0 +1,28 @@
+go 1.22.0
+
+use (
+	./abstract_factory
+	./adapter
+	./bridge
+	./builder
+	./chain_of_responsibility
+	./command
+	./composite
+	./decorator
+	./facade
+	./factory_method
+	./flyweight
+	./interpreter
+	./iterator
+	./main
+	./mediator
+	./memento
+	./observer
+	./prototype
+	./proxy
+	./singleton
+	./state
+	./strategy
+	./template_method
+	./visitor
+)
