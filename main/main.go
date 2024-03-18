@@ -5,6 +5,8 @@ import (
 	"adapter"
 	"bridge"
 	bdr "builder"
+	cr "chain_of_responsibility"
+	cmd "command"
 	"composite"
 	"decorator"
 	"facade"
@@ -14,6 +16,9 @@ import (
 	ptt "prototype"
 	"proxy"
 	"singleton"
+	"state"
+	"strategy"
+	tmplmethod "template_method"
 )
 
 func main() {
@@ -199,13 +204,61 @@ func main() {
 
 	fmt.Println("/* ---------------template_method------------------ */")
 
+	// 创建具体实现类的对象
+	obj := &tmplmethod.ConcreteClass{Data: "Hello, Template Method Pattern!"}
+
+	// 调用模板方法
+	obj.TemplateMethod()
+
 	fmt.Println("/* ---------------strategy------------------ */")
+	// 创建上下文对象
+	context := &strategy.Context{}
+
+	// 设置策略 A
+	context.SetStrategy(&strategy.ConcreteStrategyA{})
+	fmt.Println(context.ExecuteStrategy()) // 输出: Executing strategy A
+
+	// 更改策略为 B
+	context.SetStrategy(&strategy.ConcreteStrategyB{})
+
+	fmt.Println(context.ExecuteStrategy()) // 输出: Executing strategy B
 
 	fmt.Println("/* ---------------command------------------ */")
+	// 创建接收者
+	receiver := &cmd.ConcreteReceiver{Name: "Test"}
+
+	// 创建具体命令，并设置接收者
+	command := &cmd.ConcreteCommand{Receiver: receiver}
+
+	// 创建调用者，并设置命令
+	invoker := &cmd.Invoker{}
+	invoker.SetCommand(command)
+
+	// 执行命令
+	invoker.ExecuteCommand(receiver)
 
 	fmt.Println("/* ---------------chain_of_responsibility------------------ */")
 
+	// 创建处理者对象，并设置它们的后继处理者
+	handlerA := &cr.ConcreteHandlerA{}
+	handlerB := &cr.ConcreteHandlerB{}
+	handlerA.SetSuccessor(handlerB)
+
+	// 模拟客户端请求
+	clientRequests := []interface{}{"requestA", "requestB", "requestC"}
+
+	// 遍历请求，逐个处理
+	for _, request := range clientRequests {
+		handlerA.HandleRequest(request)
+	}
+
 	fmt.Println("/* ---------------state------------------ */")
+
+	st_context := &state.Context{}
+	st_context.SetState(&state.ConcreteStateA{}) // 初始状态设置为A
+
+	st_context.Request() // 执行A状态的处理
+	st_context.Request() // 执行B状态的处理，因为A状态处理中更改了状态
 
 	fmt.Println("/* ---------------observer------------------ */")
 
